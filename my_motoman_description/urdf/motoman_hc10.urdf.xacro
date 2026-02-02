@@ -3,26 +3,9 @@
   <!-- create link fixed to the "world" -->
   <link name="world" />
 
-  <!-- baseplate and mountingplate remain unchanged -->
-  ...existing code...
-  <joint name="base_to_robot_joint" type="fixed">
-    <parent link="mountingplate_link" />
-    <child link="robot_base_link" />
-    <origin xyz="0.0 0.0 0.01" rpy="0.0 0.0 ${pi}"/>
-  </joint>
-
 
   <!-- Motoman HC10 robot attached to robot_base_link -->
   <xacro:include filename="$(find motoman_hc10_support)/urdf/hc10_macro.xacro" />
-  <!-- Attach HC10 base_link to robot_base_link -->
-  <joint name="hc10_mount_joint" type="fixed">
-    <parent link="robot_base_link" />
-    <child link="base_link" />
-    <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
-  <xacro:motoman_hc10 prefix="" />
-
-  ...existing code...
 
 
   <material name="LightGrey">
@@ -107,15 +90,14 @@
     <child link="mountingplate_link" />
   </joint>
 
-   <link name="robot_base_link" />
 
-  <!-- robot to mounting_plate. -->
-  <joint name="robot_base_joint" type="fixed">
+   <!-- Attach HC10 base_link to robot_base_link -->
+  <joint name="hc10_mount_joint" type="fixed">
     <parent link="mountingplate_link" />
-    <child link="robot_base_link" />
-    <origin xyz="0.0 0.0 0.01" rpy="0.0 0.0 ${pi}"/>
+    <child link="base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
+  <xacro:motoman_hc10 prefix="" />
 
-
- 
+  
 </robot>
