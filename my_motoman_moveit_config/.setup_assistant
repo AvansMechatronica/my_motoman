@@ -1,13 +1,13 @@
 moveit_setup_assistant_config:
   urdf:
     package: my_motoman_description
-    relative_path: urdf/ur.urdf.xacro
+    relative_path: urdf/motoman_hc10.urdf.xacro
   srdf:
-    relative_path: config/my_ur.srdf
+    relative_path: config/motoman_hc10.srdf
   package_settings:
     author_name: Gerard Harkema
-    author_email: ga.harkema@avans.nl
-    generated_timestamp: 1768575614
+    author_email: GA.Harkema@avans.nl
+    generated_timestamp: 1770048066
   control_xacro:
     command:
       - position

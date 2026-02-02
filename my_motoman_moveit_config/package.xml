@@ -4,17 +4,17 @@
   <name>my_motoman_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the my_ur with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the motoman_hc10 with the MoveIt Motion Planning Framework
   </description>
-  <maintainer email="ga.harkema@avans.nl">Gerard Harkema</maintainer>
+  <maintainer email="GA.Harkema@avans.nl">Gerard Harkema</maintainer>
 
-  <license>BSD</license>
+  <license>BSD-3-Clause</license>
 
   <url type="website">http://moveit.ros.org/</url>
-  <url type="bugtracker">https://github.com/ros-planning/moveit2/issues</url>
-  <url type="repository">https://github.com/ros-planning/moveit2</url>
+  <url type="bugtracker">https://github.com/moveit/moveit2/issues</url>
+  <url type="repository">https://github.com/moveit/moveit2</url>
 
-  <author email="ga.harkema@avans.nl">Gerard Harkema</author>
+  <author email="GA.Harkema@avans.nl">Gerard Harkema</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
@@ -42,9 +42,7 @@
   <exec_depend>rviz_common</exec_depend>
   <exec_depend>rviz_default_plugins</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
-  <!--
   <exec_depend>warehouse_ros_mongo</exec_depend>
-  -->
   <exec_depend>xacro</exec_depend>
 
 
