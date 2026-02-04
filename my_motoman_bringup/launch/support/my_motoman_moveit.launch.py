@@ -66,27 +66,6 @@ def declare_arguments():
         [
             DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?"),
             DeclareLaunchArgument(
-                "ur_type",
-                description="Typo/series of used UR robot.",
-                choices=[
-                    "ur3",
-                    "ur5",
-                    "ur10",
-                    "ur3e",
-                    "ur5e",
-                    "ur7e",
-                    "ur10e",
-                    "ur12e",
-                    "ur16e",
-                    "ur8long",
-                    "ur15",
-                    "ur18",
-                    "ur20",
-                    "ur30",
-                ],
-                default_value="ur5",
-            ),
-            DeclareLaunchArgument(
                 "warehouse_sqlite_path",
                 default_value=os.path.expanduser("~/.ros/warehouse_ros.sqlite"),
                 description="Path where the warehouse database should be stored",
@@ -110,15 +89,14 @@ def declare_arguments():
 
 def generate_launch_description():
     launch_rviz = LaunchConfiguration("launch_rviz")
-    ur_type = LaunchConfiguration("ur_type")
     warehouse_sqlite_path = LaunchConfiguration("warehouse_sqlite_path")
     launch_servo = LaunchConfiguration("launch_servo")
     use_sim_time = LaunchConfiguration("use_sim_time")
     publish_robot_description_semantic = LaunchConfiguration("publish_robot_description_semantic")
 
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="my_ur", package_name="my_motoman_moveit_config")
-        .robot_description_semantic(Path("config") / "my_ur.srdf", {"name": ur_type})
+        MoveItConfigsBuilder(robot_name="my_motoman", package_name="my_motoman_moveit_config")
+        .robot_description_semantic(Path("config") / "motoman_hc10.srdf")
         .to_moveit_configs()
     )
 
@@ -151,18 +129,7 @@ def generate_launch_description():
         ],
     )
 
-    servo_yaml = load_yaml("my_motoman_moveit_config", "config/ur_servo.yaml")
-    servo_params = {"moveit_servo": servo_yaml}
-    servo_node = Node(
-        package="moveit_servo",
-        condition=IfCondition(launch_servo),
-        executable="servo_node",
-        parameters=[
-            moveit_config.to_dict(),
-            servo_params,
-        ],
-        output="screen",
-    )
+
 
     rviz_config_file = PathJoinSubstitution(
         [FindPackageShare("my_motoman_bringup"), "rviz", "rviz_config.rviz"]
@@ -191,7 +158,7 @@ def generate_launch_description():
         RegisterEventHandler(
             OnProcessExit(
                 target_action=wait_robot_description,
-                on_exit=[move_group_node, rviz_node, servo_node],
+                on_exit=[move_group_node, rviz_node],
             )
         ),
     )

@@ -60,7 +60,6 @@ def load_yaml(package_name, file_path):
 def launch_setup(context, *args, **kwargs):
 
     # Initialize Arguments
-    ur_type = LaunchConfiguration("ur_type")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     safety_limits = LaunchConfiguration("safety_limits")
     safety_pos_margin = LaunchConfiguration("safety_pos_margin")
@@ -100,7 +99,7 @@ def launch_setup(context, *args, **kwargs):
     )
     robot_description = {"robot_description": ParameterValue(robot_description_content, value_type=str)}
 
-    path_srdf =  os.path.join(get_package_share_directory("my_motoman_moveit_config"), "config/my_ur.srdf")
+    path_srdf =  os.path.join(get_package_share_directory("my_motoman_moveit_config"), "config/motoman_hc10.srdf")
     with open(path_srdf, 'r') as f:
         robot_description_semantic_content = f.read()
 
@@ -197,19 +196,6 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # Servo node for realtime control
-    servo_yaml = load_yaml("my_motoman_moveit_config", "config/ur_servo.yaml")
-    servo_params = {"moveit_servo": servo_yaml}
-    servo_node = Node(
-        package="moveit_servo",
-        condition=IfCondition(launch_servo),
-        executable="servo_node_main",
-        parameters=[
-            servo_params,
-            robot_description,
-            robot_description_semantic,
-        ],
-        output="screen",
-    )
 
     nodes_to_start = [move_group_node, rviz_node]
 
@@ -237,29 +223,7 @@ def generate_launch_description():
 
     declared_arguments = []
     # UR specific arguments
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ur_type",
-            description="Type/series of used UR robot.",
-            default_value="ur5",
-            choices=[
-                "ur3",
-                "ur5",
-                "ur10",
-                "ur3e",
-                "ur5e",
-                "ur7e",
-                "ur10e",
-                "ur12e",
-                "ur16e",
-                "ur8long",
-                "ur15",
-                "ur18",
-                "ur20",
-                "ur30",
-            ],
-        )
-    )
+
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_fake_hardware",
@@ -300,7 +264,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_file",
-            default_value="ur.urdf.xacro",
+            default_value="motoman_hc10.urdf.xacro",
             description="URDF/XACRO description file with the robot.",
         )
     )

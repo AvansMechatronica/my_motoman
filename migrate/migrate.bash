@@ -126,7 +126,7 @@ replace_xacro_arg() {
 }
 
 # Process the main URDF/XACRO file
-TARGET_FILE="$WORKSPACE_ROOT/my_motoman_description/urdf/ur.urdf.xacro"
+TARGET_FILE="$WORKSPACE_ROOT/my_motoman_description/urdf/motoman_hc10.urdf.xacro"
 
 if [ -f "$TARGET_FILE" ]; then
     echo -e "${YELLOW}Processing file: $TARGET_FILE${NC}"

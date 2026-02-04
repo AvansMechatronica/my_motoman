@@ -30,7 +30,7 @@ class manipulatorController(Node):
         self.end_effector_name = "tool0"
         self.group_name = "arm"
         self.package_name = "my_motoman_moveit_config"
-        self.srdf_file_name = "config/my_ur.srdf"
+        self.srdf_file_name = "config/motoman_hc10.srdf"
 
         # TF setup
         self.tf_buffer = Buffer()

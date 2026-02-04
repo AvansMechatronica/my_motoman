@@ -38,7 +38,6 @@ from launch_ros.substitutions import FindPackageShare
 
 def launch_setup(context, *args, **kwargs):
     # Initialize Arguments
-    ur_type = LaunchConfiguration("ur_type")
     safety_limits = LaunchConfiguration("safety_limits")
     # General arguments
     controllers_file = LaunchConfiguration("controllers_file")
@@ -52,7 +51,6 @@ def launch_setup(context, *args, **kwargs):
             )
         ),
         launch_arguments={
-            "ur_type": ur_type,
             "safety_limits": safety_limits,
             "controllers_file": controllers_file,
             "description_file": description_file,
@@ -64,7 +62,6 @@ def launch_setup(context, *args, **kwargs):
     ur_moveit_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(moveit_launch_file),
         launch_arguments={
-            "ur_type": ur_type,
             "use_sim_time": "true",
             "launch_rviz": "true",
             "sim": "true",
@@ -81,30 +78,7 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
     declared_arguments = []
-    # UR specific arguments
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ur_type",
-            description="Type/series of used UR robot.",
-            choices=[
-                "ur3",
-                "ur5",
-                "ur10",
-                "ur3e",
-                "ur5e",
-                "ur7e",
-                "ur10e",
-                "ur12e",
-                "ur16e",
-                "ur8long",
-                "ur15",
-                "ur18",
-                "ur20",
-                "ur30",
-            ],
-            default_value="ur5e",
-        )
-    )
+
     declared_arguments.append(
         DeclareLaunchArgument(
             "safety_limits",
@@ -126,7 +100,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "description_file",
             default_value=PathJoinSubstitution(
-                [FindPackageShare("my_motoman_description"), "urdf", "ur.urdf.xacro"]
+                [FindPackageShare("my_motoman_description"), "urdf", "motoman_hc10.urdf.xacro"]
             ),
             description="URDF/XACRO description file (absolute path) with the robot.",
         )

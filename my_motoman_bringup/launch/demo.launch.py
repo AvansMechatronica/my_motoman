@@ -56,7 +56,6 @@ def load_yaml(package_name, file_path):
 def launch_setup(context, *args, **kwargs):
 
     # Initialize Arguments
-    ur_type = LaunchConfiguration("ur_type")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     safety_limits = LaunchConfiguration("safety_limits")
     safety_pos_margin = LaunchConfiguration("safety_pos_margin")
@@ -73,16 +72,16 @@ def launch_setup(context, *args, **kwargs):
     launch_servo = LaunchConfiguration("launch_servo")
 
     joint_limit_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "joint_limits.yaml"]
+        [FindPackageShare(description_package), "config", "joint_limits.yaml"]
     )
     kinematics_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "default_kinematics.yaml"]
+        [FindPackageShare(description_package), "config", "default_kinematics.yaml"]
     )
     physical_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "physical_parameters.yaml"]
+        [FindPackageShare(description_package), "config", "physical_parameters.yaml"]
     )
     visual_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "visual_parameters.yaml"]
+        [FindPackageShare(description_package), "config", "visual_parameters.yaml"]
     )
     if 0:
         robot_description_content = Command(
@@ -114,11 +113,6 @@ def launch_setup(context, *args, **kwargs):
                 "safety_k_position:=",
                 safety_k_position,
                 " ",
-                "name:=",
-                "ur",
-                " ",
-                "ur_type:=",
-                ur_type,
                 " ",load_robot_description.launch
                 "script_filename:=ros_control.urscript",
                 " ",
@@ -154,11 +148,6 @@ def launch_setup(context, *args, **kwargs):
                     [FindPackageShare(moveit_config_package), "srdf", moveit_config_file]
                 ),
                 " ",
-                "name:=",
-                # Also ur_type parameter could be used but then the planning group names in yaml
-                # configs has to be updated!
-                "ur",
-                " ",
                 "prefix:=",
                 prefix,
                 " ",
@@ -168,7 +157,7 @@ def launch_setup(context, *args, **kwargs):
 
     else:
         # MoveIt Configuration
-        path_srdf =  os.path.join(get_package_share_directory("my_motoman_moveit_config"), "config/my_ur.srdf")
+        path_srdf =  os.path.join(get_package_share_directory("my_motoman_moveit_config"), "config/motoman_hc10.srdf")
         with open(path_srdf, 'r') as f:
             robot_description_semantic_content = f.read()
 
@@ -253,30 +242,7 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
 
     declared_arguments = []
-    # UR specific arguments
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "ur_type",
-            description="Type/series of used UR robot.",
-            default_value="ur5",
-            choices=[
-                "ur3",
-                "ur5",
-                "ur10",
-                "ur3e",
-                "ur5e",
-                "ur7e",
-                "ur10e",
-                "ur12e",
-                "ur16e",
-                "ur8long",
-                "ur15",
-                "ur18",
-                "ur20",
-                "ur30",
-            ],
-        )
-    )
+
     declared_arguments.append(
         DeclareLaunchArgument(
             "use_fake_hardware",
@@ -317,7 +283,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_file",
-            default_value="ur.urdf.xacro",
+            default_value="motoman_hc10.urdf.xacro",
             description="URDF/XACRO description file with the robot.",
         )
     )
